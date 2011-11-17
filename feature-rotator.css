@@ -1,0 +1,63 @@
+/* Feature Rotator
+   Updated: 2011.11.17 RKD
+   Author: Erik Runyon
+   ----------------------------------------------------*/
+
+/* Global Styles go outside the @media screen */
+
+@media screen,projection {
+
+  #feature {position:relative; overflow:hidden; height:auto; margin:0 0 20px 0; cursor:pointer; border:1px solid #3e3e3e; border-right:none; }
+
+  #feature ul {margin:0; padding:0; list-style:none;}
+  #feature li {position:absolute; margin:0;}
+  #feature li a {display:block;}
+  #feature li img {border-right:1px solid #3e3e3e;border-bottom:1px solid #3e3e3e;  max-width:758px;}
+  #feature #arrow	{position:absolute; top:273px; left:83px; background:url(assets/feature-arrow.png) top center no-repeat; width:44px; height:22px;}
+  .feature {position:relative; float:left; width:28%; margin:295px 0 0; padding:15px 16px;}
+  .feature .overlay {position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(200,200,200,0.3);}
+  .feature.current .overlay,
+  .feature .overlay:hover {background:rgba(255,255,255,0);}
+  .feature h2,
+  .feature h3 {margin-top:0;}
+  .feature h2 a,
+  .feature h3 a {text-decoration:none;}
+  .feature p {float:none; margin:0;}
+  .feature a {color:#333; text-decoration:none;}
+  .feature.current a {text-decoration:underline;}
+  .feature .image-left,
+  .feature .image-right,
+  .feature .image-default,
+  .feature img {display:none;}
+  .feature img {padding:0; border:none;}
+  .feature {border-right:1px solid #3e3e3e;}
+
+
+}
+
+/*************************************************************************************
+ * @media queries
+ ************************************************************************************/
+
+/* Tablets landscape ----------- */
+@media only screen and (max-width:1100px) {}
+
+/* Tablets portrait ----------- */
+@media only screen and (max-width:800px) {}
+
+/* Mid-Size Tablets (Galaxy Tab) (portrait) ----------- */
+@media only screen and (max-width:640px) {}
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (max-width:480px) {}
+
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width:320px) {}
+
+/* iPhone4 and high pixel ratio devices ----------- */
+@media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-device-pixel-ratio:1.5) {}
+
+/*************************************************************************************
+ * Print Styles
+ ************************************************************************************/
+@media print {}
