@@ -1,29 +1,19 @@
 
 $(window).load(function() {
-  $('#feature li.thumb').equalHeights();
-  $('#alpha .col').equalHeights();
-
-	var capwidth = $('.image-right').find('img').width();
-	$('.image-right').css({width:capwidth});
-
-	
+	$('#feature li.thumb').equalHeights();
 	$('#feature').featureRotator({
-	
-	  'width' : '720',
-	  'height' : '299',
+	  'width' : '700',
+	  'height' : '300',
 	  'count' : '3'
 	});
-
-	
 	$('.feature').click(function(e){
 		$(this).featureRotator('update',e);
 	});
+	
+   
 });
 
-
-
 (function( $ ) {
- 
 
 	var methods = {
 		init : function( options ) {
@@ -31,26 +21,29 @@ $(window).load(function() {
  			var settings = {
       			'width' : '520',
 	  			'height' : '100',
-	  			'count' : '3'
+	  			'count' : '3',
+				'padding' : '16'
     		};
-				  if ( options ) { 
-			            $.extend( settings, options );
-				  };
+			if ( options ) { 
+				$.extend( settings, options );
+			};
     		return this.each(function() {        
-				var imglist = '<ul>',
-			      $feature = $('#feature')
-			      $features = $feature.find('.feature')
-			      $tabWidth = (((settings.width / settings.count) - 33) * (100/settings.width)); // 16px padding each side plus 1px side border
+				var featurelist = '<ul>',
+			      $feature = $('#feature'),
+				  $tabs		= $('#tabs'),
+			      $features = $feature.find('.feature'),
+			      $tabWidth = (((settings.width / settings.count) - ((settings.padding*2)+1)) * (100/settings.width)); // 16px padding each side plus 1px side border
 			  ;
-			$feature.css({'width':settings.width})		
-			 // $feature.css({'max-width':settings.width});
-			  $features.width(($tabWidth)+'%');
-			 // $features.width((100-settings.count) - (setting.count)%);
 
-			  $features.each(function(i,item){
+			$feature.css({'max-width':settings.width})		
+			$features.width(($tabWidth)+'%');
+			$features.css({'padding': (settings.padding / settings.width)*100+'%'})
+			
+			$features.each(function(i,item){
 			    var $this = $(this),
 			        txt = $this.find('h2').text(),
 			        link = $this.find('a').attr('href'),
+					vid = $this.find('iframe').wrap('<div />').parent().html(),
 			        curr = ''
 			    ;
 
@@ -58,56 +51,74 @@ $(window).load(function() {
 			      curr = 'current';
 			      $this.addClass('current');
 			    }
-			    imglist += '<li id="img'+ $this.attr('id') +'" class="'+ curr +'"><a href="'+ link +'"><img src="'+ $this.find('img').attr('src') +'" alt="'+ txt +'" title="'+ txt +'"></a></li>';
-			    $this.prepend('<div class="overlay"></div>')
-			         .wrapInner('<a href="'+ link +'"></a>')
-			    ;
-			  });
-			  imglist += '</ul>';
+			   
+			
+			 //	imglist += '<li id="img'+ $this.attr('id') +'" class="'+ curr +'"><a href="'+ link +'"><img src="'+ $this.find('img').attr('src') +'" alt="'+ txt +'" title="'+ txt +'"></a></li>';
+			 //   $this.prepend('<div class="overlay"></div>')
+			 //        .wrapInner('<a href="'+ link +'"></a>')
+			 //   ;
+			
+			
+			
+				if($this.find('img').length){
+						    	featurelist += '<li id="img'+ $this.attr('id') +'" class="'+ curr +'"><a href="'+ link +'"><img src="'+ $this.find('img').attr('src') +'" alt="'+ txt +'" title="'+ txt +'"></a></li>';
+						    	$this.prepend('<div class="overlay"></div>').wrapInner('<a href="'+ link +'"></a>');
+							}
+							else if($this.find('iframe').length){
+								featurelist += '<li id="img'+ $this.attr('id') +'" class="'+ curr +'">'+ vid + '</li>';
+								$this.prepend('<div class="overlay"></div>').wrapInner('<a href="'+ link +'"></a>');
 
+							}
+							
+							
+			});
+			
+			featurelist += '</ul>';
 
-			  $feature.prepend(imglist);
-			  $('<div id="arrow"></div>').insertAfter($feature.find('ul'));
-			//  $('#arrow').css({left:(((settings.width/settings.count) / 2) - 22)});
-			  $feature.find('#arrow').css({'left':'0px','top':settings.height-21+'px'});
+			
+			$feature.prepend(featurelist);
 
-			  $('#arrow').width(((settings.width/settings.count))); //46 width of arrow
-			  $feature.find('li.current').siblings().hide();
+			$feature.find('ul').height($feature.find('li img').height());
+			$('<div id="arrow"></div>').insertAfter($feature.find('ul'));
+	//		$feature.find('#arrow').css({'left':'0px','top':settings.height-21+'px'});//21 is height of arrow
+	//		$feature.find('#arrow').css({'left':'0px','top':$feature.find('li img').height()-21+'px'});//21 is height of arrow
 
-			  $features.css("margin-top",settings.height+"px");
-			  $features.equalHeights();
-       		});
- 		},
+		  	$('#arrow').width((($feature.width()/settings.count)+5)); //46 iswidth of arrow
+			$feature.find('li.current').siblings().hide();
+
+			$tabs.height('auto');
+			
+			$features.each(function() {
+		      if($(this).height() > tallest) {
+		        tallest = $(this).outerHeight();
+		      }
+		    });
+		 	$tabs.height(tallest);
+			$features.height('100%');
+		
+			
+       	}); // end init
+ 	},
 
    		update : function( e ) { 
 	  		// Functionality
-       	//	return this.each(function(){
+       		//	return this.each(function(){
 		
-  				var $this = $(this),
-					$feature = $('#feature');
+  			var $this = $(this),
+			$feature = $('#feature');
 					
-					
-				    if($this.hasClass('current')) {
-				      // do nothing 
-				    } else {
-				      e.preventDefault();
-				      $feature.find('.feature').removeClass('current');
-				      $feature.find('li.current')
-				              .removeClass('current')
-				              .fadeOut('slow')
-				      ;
-				      $this.addClass('current');
-				      $('#img' + $this.attr('id')).addClass('current').fadeIn('slow');
-				      $('#arrow').animate({left: $this.position().left});
-
-				    };
-  		//	});
-
+		    if($this.hasClass('current')) {
+			      // do nothing 
+		    } else {
+			      e.preventDefault();
+			      $feature.find('.feature').removeClass('current');
+			      $feature.find('li.current').removeClass('current').fadeOut('slow');
+				  $this.addClass('current');
+				  $('#img' + $this.attr('id')).addClass('current').fadeIn('slow');
+				  $('#arrow').animate({'margin-left': $this.position().left});
+		    };
 		}
 	};
-
-	
-
  
 	$.fn.featureRotator = function( method ) {
     
