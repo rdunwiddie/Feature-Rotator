@@ -3,7 +3,7 @@ Feature Rotator Plugin
 
 Author:Ryan Dunwiddie
 
-Version: 1.5
+Version: 2.0
 
 
 Description:
